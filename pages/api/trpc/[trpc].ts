@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import slugify from "slugify";
@@ -19,7 +20,16 @@ export const appRouter = trpc.router().mutation("create", {
       });
       return event;
     } catch (error) {
-      console.error(error);
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        throw new trpc.TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "A meetup with this name already exists.",
+          cause: error,
+        });
+      }
       throw new trpc.TRPCError({
         code: "BAD_REQUEST",
         message: "An unexpected error occurred, please try again later.",

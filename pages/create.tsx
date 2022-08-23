@@ -6,6 +6,7 @@ import {
 } from "../src/createEventSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "../src/trpc";
+import { TRPCClientError } from "@trpc/client";
 
 const CreatePage: NextPage = () => {
   const { mutateAsync } = trpc.useMutation(["create"]);
@@ -23,9 +24,11 @@ const CreatePage: NextPage = () => {
     try {
       const res = await mutateAsync(data);
     } catch (e) {
-      setError("dateTime", {
-        message: "An unexpected error occurred, please try again later.",
-      });
+      if (e instanceof TRPCClientError) {
+        setError("name", {
+          message: e.message,
+        });
+      }
     }
   };
 
