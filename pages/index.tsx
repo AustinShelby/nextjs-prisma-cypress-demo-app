@@ -5,6 +5,7 @@ import type {
   NextPage,
 } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { prisma } from "../src/prisma";
 import { Serializable } from "../src/types";
 
@@ -16,8 +17,8 @@ const HomePage: NextPage<
       <div className="flex justify-between items-baseline mb-16">
         <h1 className="font-medium text-4xl">Meetups</h1>
         <Link href={"/create"}>
-          <a className="bg-indigo-600 px-8 py-3 rounded-sm text-white font-medium">
-            Create a new event
+          <a className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-sm text-white font-medium">
+            Create a new meetup
           </a>
         </Link>
       </div>

@@ -10,18 +10,13 @@ export const CreateEventSchema = z.object({
     .string()
     .min(1, "Please enter a location for the meetup.")
     .max(64, "Maximum length 64 characters."),
-  dateTime: z
-    .preprocess(
-      (val) => typeof val == "string" && new Date(val),
-      z
-        .date({
-          invalid_type_error: "Please enter a valid date.",
-        })
-        .refine((date) => date > new Date(), {
-          message: "Please enter a date that is not in the past.",
-        })
-    )
-    .transform((date) => date.toISOString()),
+  dateTime: z.string().refine(
+    (val) => {
+      const date = new Date(val);
+      return !Number.isNaN(date.getTime()) && date > new Date();
+    },
+    { message: "Please enter a date that is in the future." }
+  ),
 });
 
-export type CreateEventSchemaType = z.infer<typeof CreateEventSchema>;
+export type CreateEventSchemaType = z.input<typeof CreateEventSchema>;

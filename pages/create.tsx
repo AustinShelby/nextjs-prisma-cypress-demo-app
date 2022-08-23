@@ -34,7 +34,7 @@ const CreatePage: NextPage = () => {
       <h1 className="font-medium text-4xl mb-16">Add a new meetup</h1>
       {isSubmitSuccessful ? (
         <div>
-          <p>New meetup created succesffully!</p>
+          <p>New meetup created successfully!</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -92,7 +92,7 @@ const CreatePage: NextPage = () => {
           )}
           <button
             type="submit"
-            className="bg-indigo-600 px-8 py-3 mt-8 rounded-sm text-white font-medium w-full"
+            className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 mt-8 rounded-sm text-white font-medium w-full"
           >
             Add a meetup
           </button>
