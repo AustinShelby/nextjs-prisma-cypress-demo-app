@@ -22,11 +22,15 @@ const CreatePage: NextPage = () => {
 
   const onSubmit: SubmitHandler<CreateEventSchemaType> = async (data) => {
     try {
-      const res = await mutateAsync(data);
+      await mutateAsync(data);
     } catch (e) {
       if (e instanceof TRPCClientError) {
         setError("name", {
           message: e.message,
+        });
+      } else {
+        setError("name", {
+          message: "Unexpected error. Please try again later.",
         });
       }
     }
@@ -45,6 +49,7 @@ const CreatePage: NextPage = () => {
             Event name
           </label>
           <input
+            disabled={isSubmitting}
             id="name"
             className="border rounded w-full text-lg px-4 py-2 block"
             {...register("name")}
@@ -56,6 +61,7 @@ const CreatePage: NextPage = () => {
             Description
           </label>
           <textarea
+            disabled={isSubmitting}
             rows={4}
             id="description"
             className="border rounded w-full text-lg px-4 py-2 block"
@@ -70,6 +76,7 @@ const CreatePage: NextPage = () => {
             Location
           </label>
           <input
+            disabled={isSubmitting}
             id="location"
             className="border rounded w-full text-lg px-4 py-2 block"
             {...register("location")}
@@ -83,6 +90,7 @@ const CreatePage: NextPage = () => {
             Time and Date
           </label>
           <input
+            disabled={isSubmitting}
             id="datetime"
             type={"datetime-local"}
             className="border rounded w-full text-lg px-4 py-2 block"
@@ -94,6 +102,7 @@ const CreatePage: NextPage = () => {
             </p>
           )}
           <button
+            disabled={isSubmitting}
             type="submit"
             className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 mt-8 rounded-sm text-white font-medium w-full"
           >
