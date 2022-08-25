@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "cypress:run": "cypress run",
-    "test:e2e": "yarn build && yarn start-server-and-test start http://localhost:3000 cypress:run"
+    "test": "yarn build && yarn start-server-and-test start http://localhost:3000 cypress:run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
