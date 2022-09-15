@@ -8,6 +8,7 @@ declare global {
         task: "seed:events",
         arg: Parameters<typeof seedEvents>[0]
       ): Chainable<ReturnType<typeof seedEvents>>;
+      task(task: "reset"): Chainable<Promise<null>>;
     }
   }
 }

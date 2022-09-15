@@ -1,4 +1,8 @@
 describe("Meetup detail page", () => {
+  beforeEach(() => {
+    cy.task("reset");
+  });
+
   it("Should exist when it is in database", () => {
     cy.task("seed:events", [
       {
