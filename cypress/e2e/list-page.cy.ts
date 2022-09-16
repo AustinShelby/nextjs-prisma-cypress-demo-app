@@ -23,6 +23,22 @@ describe("Meetups list page", () => {
     cy.visit("/");
     cy.get("ul li").should("have.length", 1).contains("TypeScript Meetup");
   });
+
+  it("past meetups are not shown", () => {
+    cy.task("seed:events", [
+      {
+        id: 1,
+        name: "TypeScript Meetup",
+        slug: "typescript-meetup",
+        description: "",
+        location: "Online",
+        dateTime: new Date(2000, 11, 23),
+      },
+    ]);
+
+    cy.visit("/");
+    cy.get("ul li").should("have.length", 0);
+  });
 });
 
 export {};
