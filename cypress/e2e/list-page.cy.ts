@@ -69,6 +69,20 @@ describe("Meetups list page", () => {
       .next()
       .should("contain", "Python Meetup");
   });
+
+  it("meetups are shown in order by dateTime in ascending order when in reverse order in database", () => {
+    // W
+    cy.task("seed:events", []);
+
+    cy.visit("/");
+
+    cy.get("ul li")
+      .should("have.length", 2)
+      .first()
+      .should("contain", "TypeScript Meetup")
+      .next()
+      .should("contain", "Python Meetup");
+  });
 });
 
 export {};
