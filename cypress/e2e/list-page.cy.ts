@@ -72,7 +72,24 @@ describe("Meetups list page", () => {
 
   it("meetups are shown in order by dateTime in ascending order when in reverse order in database", () => {
     // W
-    cy.task("seed:events", []);
+    cy.task("seed:events", [
+      {
+        id: 1,
+        name: "Python Meetup",
+        slug: "python-meetup",
+        description: "",
+        location: "Online",
+        dateTime: new Date(2030, 11, 24),
+      },
+      {
+        id: 2,
+        name: "TypeScript Meetup",
+        slug: "typescript-meetup",
+        description: "",
+        location: "Online",
+        dateTime: new Date(2030, 11, 23),
+      },
+    ]);
 
     cy.visit("/");
 
