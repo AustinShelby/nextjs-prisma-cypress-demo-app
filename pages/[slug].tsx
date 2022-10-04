@@ -13,7 +13,9 @@ const HomePage: NextPage<
   return (
     <div>
       <div className="flex justify-between items-baseline">
-        <h1 className="font-medium text-3xl">{event.name}</h1>
+        <h1 data-cy="title" className="font-medium text-3xl">
+          {event.name}
+        </h1>
         <p>
           {new Date(event.dateTime).toLocaleString("en-US", {
             day: "numeric",
