@@ -16,7 +16,7 @@ const HomePage: NextPage<
         <h1 data-cy="title" className="font-medium text-3xl">
           {event.name}
         </h1>
-        <p>
+        <p data-cy="date">
           {new Date(event.dateTime).toLocaleString("en-US", {
             day: "numeric",
             month: "long",
@@ -24,8 +24,13 @@ const HomePage: NextPage<
           })}
         </p>
       </div>
-      <p className="mt-2">{event.location}</p>
-      <p className="mt-4 leading-loose whitespace-pre-wrap">
+      <p data-cy="location" className="mt-2">
+        {event.location}
+      </p>
+      <p
+        data-cy="description"
+        className="mt-4 leading-loose whitespace-pre-wrap"
+      >
         {event.description}
       </p>
     </div>
