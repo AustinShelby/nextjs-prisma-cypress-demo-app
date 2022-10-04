@@ -39,9 +39,9 @@ describe("Meetup detail page", () => {
     cy.visit("/typescript-meetup");
 
     cy.get("[data-cy='title']").contains("TypeScript Meetup");
-    cy.get().contains("This is a description");
-    cy.get().contains("Online");
-    cy.get().contains("January 1, 2030");
+    cy.get("[data-cy='description']").contains("This is a description");
+    cy.get("[data-cy='location']").contains("Online");
+    cy.get("[data-cy='date']").contains("January 1, 2030");
   });
 });
 
