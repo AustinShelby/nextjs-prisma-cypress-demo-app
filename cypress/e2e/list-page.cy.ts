@@ -71,7 +71,6 @@ describe("Meetups list page", () => {
   });
 
   it("meetups are shown in order by dateTime in ascending order when in reverse order in database", () => {
-    // W
     cy.task("seed:events", [
       {
         id: 1,
@@ -99,6 +98,29 @@ describe("Meetups list page", () => {
       .should("contain", "TypeScript Meetup")
       .next()
       .should("contain", "Python Meetup");
+  });
+
+  it("meetup title, description, and start time elements are being populated", () => {
+    cy.task("seed:events", [
+      {
+        id: 1,
+        name: "Python Meetup",
+        slug: "python-meetup",
+        description: "description",
+        location: "Online",
+        dateTime: new Date(2030, 11, 24),
+      },
+    ]);
+
+    cy.visit("/");
+
+    cy.get("ul li").should("have.length", 1).first().as("meetup");
+
+    cy.get("@meetup").get("h2").should("not.be.empty");
+
+    cy.get("@meetup").get("div:first p").should("not.be.empty");
+
+    cy.get("@meetup").get("div:last p").should("not.be.empty");
   });
 });
 
