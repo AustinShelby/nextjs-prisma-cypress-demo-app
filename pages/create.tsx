@@ -55,7 +55,9 @@ const CreatePage: NextPage = () => {
             {...register("name")}
           />
           {errors.name && (
-            <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
+            <p data-cy="name-error" className="text-red-600 text-sm mt-1">
+              {errors.name.message}
+            </p>
           )}
           <label className="block mb-2 mt-8" htmlFor="description">
             Description
@@ -68,7 +70,10 @@ const CreatePage: NextPage = () => {
             {...register("description")}
           />
           {errors.description && (
-            <p className="text-red-600 text-sm mt-1">
+            <p
+              data-cy="description-error"
+              className="text-red-600 text-sm mt-1"
+            >
               {errors.description.message}
             </p>
           )}
@@ -82,7 +87,7 @@ const CreatePage: NextPage = () => {
             {...register("location")}
           />
           {errors.location && (
-            <p className="text-red-600 text-sm mt-1">
+            <p data-cy="location-error" className="text-red-600 text-sm mt-1">
               {errors.location.message}
             </p>
           )}
@@ -97,7 +102,7 @@ const CreatePage: NextPage = () => {
             {...register("dateTime")}
           />
           {errors.dateTime && (
-            <p className="text-red-600 text-sm mt-1">
+            <p data-cy="date-error" className="text-red-600 text-sm mt-1">
               {errors.dateTime.message}
             </p>
           )}

@@ -12,15 +12,11 @@ describe("Meetup create page", () => {
   it("Meetup title and datetime input work", () => {
     cy.visit("/create");
 
-    cy.get("input#name")
-      .should("have.value", "")
-      .type("test")
-      .should("have.value", "test");
+    cy.get("input#name").should("have.value", "").type("test");
+    cy.get("input#name").should("have.value", "test");
 
-    cy.get("input#datetime")
-      .should("have.value", "")
-      .type("2030-10-10T10:10")
-      .should("have.value", "2030-10-10T10:10");
+    cy.get("input#datetime").should("have.value", "").type("2030-10-10T10:10");
+    cy.get("input#datetime").should("have.value", "2030-10-10T10:10");
   });
 
   it("Submitting empty form gives error on required fields title, location and date", () => {
@@ -28,28 +24,23 @@ describe("Meetup create page", () => {
 
     cy.get("button:submit").click();
 
-    cy.contains("Please enter a name for the meetup.");
-    cy.contains("Please enter a location for the meetup.");
-    cy.contains("Please enter a date that is in the future.");
+    cy.get("[data-cy='name-error']").contains(
+      "Please enter a name for the meetup."
+    );
+    cy.get("[data-cy='location-error']").contains(
+      "Please enter a location for the meetup."
+    );
+    cy.get("[data-cy='date-error']").contains(
+      "Please enter a date that is in the future."
+    );
   });
 
   it("Success message shows after a successful submit", () => {
     cy.visit("/create");
 
-    cy.get("input#name")
-      .should("have.value", "")
-      .type("test")
-      .should("have.value", "test");
-
-    cy.get("input#location")
-      .should("have.value", "")
-      .type("Online")
-      .should("have.value", "Online");
-
-    cy.get("input#datetime")
-      .should("have.value", "")
-      .type("2030-10-10T10:10")
-      .should("have.value", "2030-10-10T10:10");
+    cy.get("input#name").type("test");
+    cy.get("input#location").type("Online");
+    cy.get("input#datetime").type("2030-10-10T10:10");
 
     cy.get("button:submit").click();
 
@@ -70,20 +61,9 @@ describe("Meetup create page", () => {
 
     cy.visit("/create");
 
-    cy.get("input#name")
-      .should("have.value", "")
-      .type("TypeScript Meetup")
-      .should("have.value", "TypeScript Meetup");
-
-    cy.get("input#location")
-      .should("have.value", "")
-      .type("Online")
-      .should("have.value", "Online");
-
-    cy.get("input#datetime")
-      .should("have.value", "")
-      .type("2030-10-10T10:10")
-      .should("have.value", "2030-10-10T10:10");
+    cy.get("input#name").type("TypeScript Meetup");
+    cy.get("input#location").type("Online");
+    cy.get("input#datetime").type("2030-10-10T10:10");
 
     cy.get("button:submit").click();
 
@@ -93,20 +73,9 @@ describe("Meetup create page", () => {
   it("A newly created meetup has a page", () => {
     cy.visit("/create");
 
-    cy.get("input#name")
-      .should("have.value", "")
-      .type("TypeScript Meetup")
-      .should("have.value", "TypeScript Meetup");
-
-    cy.get("input#location")
-      .should("have.value", "")
-      .type("Online")
-      .should("have.value", "Online");
-
-    cy.get("input#datetime")
-      .should("have.value", "")
-      .type("2030-10-10T10:10")
-      .should("have.value", "2030-10-10T10:10");
+    cy.get("input#name").type("TypeScript Meetup");
+    cy.get("input#location").type("Online");
+    cy.get("input#datetime").type("2030-10-10T10:10");
 
     cy.get("button:submit").click();
 
@@ -114,6 +83,24 @@ describe("Meetup create page", () => {
 
     cy.visit("/typescript-meetup");
     cy.get("[data-cy='title']").contains("TypeScript Meetup");
+  });
+
+  it("Submitting form with too long inputs gives error on fields title, description, and location", () => {
+    cy.visit("/create");
+
+    cy.get("input#name").type("a".repeat(65));
+    cy.get("input#location").type("a".repeat(65));
+    cy.get("textarea#description").type("a".repeat(1025));
+
+    cy.get("button:submit").click();
+
+    cy.get("[data-cy='name-error']").contains("Maximum length 64 characters.");
+    cy.get("[data-cy='location-error']").contains(
+      "Maximum length 64 characters."
+    );
+    cy.get("[data-cy='description-error']").contains(
+      "Maximum length 1024 characters."
+    );
   });
 });
 
