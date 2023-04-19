@@ -88,9 +88,9 @@ describe("Meetup create page", () => {
   it("Submitting form with too long inputs gives error on fields title, description, and location", () => {
     cy.visit("/create");
 
-    cy.get("input#name").type("a".repeat(65));
-    cy.get("input#location").type("a".repeat(65));
-    cy.get("textarea#description").type("a".repeat(1025));
+    cy.get("input#name").type("a".repeat(65), { delay: 0 });
+    cy.get("input#location").type("a".repeat(65), { delay: 0 });
+    cy.get("textarea#description").type("a".repeat(1025), { delay: 0 });
 
     cy.get("button:submit").click();
 
