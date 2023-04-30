@@ -48,6 +48,7 @@ describe("Meetup create page", () => {
   });
 
   it("Can't create a meetup if one with the same generated slug exists", () => {
+    // Arrange. Seed the database with a meetup.
     cy.task("seed:events", [
       {
         id: 1,
@@ -59,6 +60,7 @@ describe("Meetup create page", () => {
       },
     ]);
 
+    // Act. Go to the create a meetup page and interact with the form to submit a meetup with the same name as what you seeded the database with.
     cy.visit("/create");
 
     cy.get("input#name").type("TypeScript Meetup");
@@ -67,7 +69,10 @@ describe("Meetup create page", () => {
 
     cy.get("button:submit").click();
 
-    cy.contains("A meetup with this name already exists.");
+    // Assert. Check that the correct error message appears in the correct location after trying to submit the form.
+    cy.get("[data-cy='name-error']").contains(
+      "A meetup with this name already exists."
+    );
   });
 
   it("A newly created meetup has a page", () => {
