@@ -6,6 +6,8 @@ import type {
 } from "next";
 import { prisma } from "../src/prisma";
 import { Serializable } from "../src/types";
+import { TimeCalculator } from "../src/TimeCalculator";
+import { Button } from "../src/Button";
 
 const HomePage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -13,16 +15,10 @@ const HomePage: NextPage<
   return (
     <div>
       <div className="flex justify-between items-baseline">
-        <h1 data-cy="title" className="font-medium text-3xl">
+        <h1 data-cy="title" className="font-semibold text-4xl">
           {event.name}
         </h1>
-        <p data-cy="date">
-          {new Date(event.dateTime).toLocaleString("en-US", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
+        <TimeCalculator date={new Date(event.dateTime)} />
       </div>
       <p data-cy="location" className="mt-2">
         {event.location}
@@ -33,6 +29,13 @@ const HomePage: NextPage<
       >
         {event.description}
       </p>
+      <div className="mt-16">
+        <Button
+          disabled={false}
+          onClick={() => console.log("world")}
+          text={"Delete meetup"}
+        />
+      </div>
     </div>
   );
 };

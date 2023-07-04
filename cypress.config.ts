@@ -28,6 +28,12 @@ export default defineConfig({
       });
     },
   },
+  component: {
+    devServer: {
+      framework: "next",
+      bundler: "webpack",
+    },
+  },
   screenshotOnRunFailure: false,
   video: false,
 });
