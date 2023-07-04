@@ -1,4 +1,3 @@
-import "./commands";
 import { mount } from "cypress/react18";
 
 //Ensure global styles are loaded
