@@ -1,49 +1,48 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
+import { publicProcedure, router } from "@/server";
+import { CreateEventSchema } from "@/createEventSchema";
+import { prisma } from "@/prisma";
 import slugify from "slugify";
-import { CreateEventSchema } from "../../../src/createEventSchema";
-import { prisma } from "../../../src/prisma";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { TRPCError } from "@trpc/server";
 
-export const appRouter = trpc.router().mutation("create", {
-  input: CreateEventSchema,
-  async resolve({ input }) {
-    try {
-      const event = await prisma.event.create({
-        data: {
-          name: input.name,
-          slug: slugify(input.name, { lower: true }),
-          description: input.description,
-          location: input.location,
-          dateTime: new Date(input.dateTime),
-        },
-      });
-      return event;
-    } catch (error) {
-      if (
-        error instanceof PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
-        throw new trpc.TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "A meetup with this name already exists.",
+const appRouter = router({
+  create: publicProcedure
+    .input(CreateEventSchema)
+    .mutation(async ({ input }) => {
+      try {
+        const event = await prisma.event.create({
+          data: {
+            name: input.name,
+            slug: slugify(input.name, { lower: true }),
+            description: input.description,
+            location: input.location,
+            dateTime: new Date(input.dateTime),
+          },
+        });
+        return event;
+      } catch (error) {
+        if (
+          error instanceof PrismaClientKnownRequestError &&
+          error.code === "P2002"
+        ) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "A meetup with this name already exists.",
+            cause: error,
+          });
+        }
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "An unexpected error occurred, please try again later.",
           cause: error,
         });
       }
-      throw new trpc.TRPCError({
-        code: "BAD_REQUEST",
-        message: "An unexpected error occurred, please try again later.",
-        cause: error,
-      });
-    }
-  },
+    }),
 });
 
-// export type definition of API
 export type AppRouter = typeof appRouter;
 
-// export API handler
 export default trpcNext.createNextApiHandler({
   router: appRouter,
-  createContext: () => null,
 });

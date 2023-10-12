@@ -5,7 +5,6 @@ import type {
   NextPage,
 } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { prisma } from "../src/prisma";
 import { Serializable } from "../src/types";
 
@@ -16,10 +15,11 @@ const HomePage: NextPage<
     <div>
       <div className="flex justify-between items-baseline mb-16">
         <h1 className="font-medium text-4xl">Meetups</h1>
-        <Link href={"/create"}>
-          <a className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-sm text-white font-medium">
-            Create a new meetup
-          </a>
+        <Link
+          className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-sm text-white font-medium"
+          href={"/create"}
+        >
+          Create a new meetup
         </Link>
       </div>
       <ul className="space-y-8">
@@ -28,26 +28,24 @@ const HomePage: NextPage<
             className="border border-gray-200 rounded-sm hover:-translate-y-2 duration-200 hover:shadow-md"
             key={event.id}
           >
-            <Link href={`/${event.slug}`}>
-              <a className="flex">
-                <div className="p-8 flex-1">
-                  <h2 className="text-2xl font-medium">{event.name}</h2>
-                  <p className="mt-4 leading-loose whitespace-pre-wrap">
-                    {event.description}
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-8 border-l border-gray-200 w-40 flex items-center justify-center">
-                  <p className="text-center">
-                    <span className="text-2xl font-semibold">
-                      {new Date(event.dateTime).getDate()}
-                    </span>
-                    <br />
-                    {new Date(event.dateTime).toLocaleString("en-US", {
-                      month: "long",
-                    })}
-                  </p>
-                </div>
-              </a>
+            <Link className="flex" href={`/${event.slug}`}>
+              <div className="p-8 flex-1">
+                <h2 className="text-2xl font-medium">{event.name}</h2>
+                <p className="mt-4 leading-loose whitespace-pre-wrap">
+                  {event.description}
+                </p>
+              </div>
+              <div className="bg-gray-50 p-8 border-l border-gray-200 w-40 flex items-center justify-center">
+                <p className="text-center">
+                  <span className="text-2xl font-semibold">
+                    {new Date(event.dateTime).getDate()}
+                  </span>
+                  <br />
+                  {new Date(event.dateTime).toLocaleString("en-US", {
+                    month: "long",
+                  })}
+                </p>
+              </div>
             </Link>
           </li>
         ))}

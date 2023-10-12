@@ -4,7 +4,6 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import Link from "next/link";
 import { prisma } from "../src/prisma";
 import { Serializable } from "../src/types";
 

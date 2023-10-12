@@ -1,40 +1,34 @@
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { AppRouter } from "./api/trpc/[trpc]";
-import { withTRPC } from "@trpc/next";
+import type { AppType } from "next/app";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { trpc } from "@/trpc";
 
-function App({ Component, pageProps }: AppProps) {
+const App: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
   return (
-    <main className="max-w-3xl mx-auto px-4 py-16">
-      <header className="mb-32">
-        <nav>
-          <Link href="/">
-            <a className="text-gray-600 hover:text-indigo-700">Home</a>
-          </Link>
-          <Link href="/create">
-            <a
+    <main className="bg-white">
+      <div className="max-w-3xl mx-auto px-4 py-16">
+        <header className="mb-32">
+          <nav>
+            <Link className="text-gray-600 hover:text-indigo-700" href="/">
+              Home
+            </Link>
+            <Link
               onClick={
                 router.asPath.startsWith("/create") ? router.reload : undefined
               }
               className="text-gray-600 hover:text-indigo-700 ml-8"
+              href="/create"
             >
               Create a new Meetup
-            </a>
-          </Link>
-        </nav>
-      </header>
-      <Component {...pageProps} />
+            </Link>
+          </nav>
+        </header>
+        <Component {...pageProps} />
+      </div>
     </main>
   );
-}
+};
 
-export default withTRPC<AppRouter>({
-  config() {
-    return {
-      url: "/api/trpc",
-    };
-  },
-})(App);
+export default trpc.withTRPC(App);

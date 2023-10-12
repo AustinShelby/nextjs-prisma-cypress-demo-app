@@ -5,11 +5,11 @@ import {
   CreateEventSchemaType,
 } from "../src/createEventSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { trpc } from "../src/trpc";
+import { trpc } from "@/trpc";
 import { TRPCClientError } from "@trpc/client";
 
 const CreatePage: NextPage = () => {
-  const { mutateAsync } = trpc.useMutation(["create"]);
+  const { mutateAsync } = trpc.create.useMutation();
 
   const {
     register,
